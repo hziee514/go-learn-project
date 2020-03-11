@@ -1,7 +1,7 @@
 package stack
 
 type Element struct {
-	prev  *Element
+	next  *Element
 	Value interface{}
 }
 
@@ -28,45 +28,28 @@ func (stack *Stack) Len() int {
 	return stack.len
 }
 
-func (stack *Stack) PushValue(v interface{}) {
-	stack.Push(&Element{Value: v})
-}
-
-func (stack *Stack) Push(e *Element) {
-	if stack.len == 0 {
-		e.prev = nil
-	} else {
-		e.prev = stack.top
+func (stack *Stack) Push(v interface{}) {
+	e := &Element{Value: v}
+	if stack.len > 0 {
+		e.next = stack.top
 	}
 	stack.top = e
 	stack.len++
 }
 
-func (stack *Stack) PopValue() interface{} {
-	e := stack.Pop()
-	if e == nil {
-		return nil
-	}
-	return e.Value
-}
-
-func (stack *Stack) Pop() *Element {
+func (stack *Stack) Pop() interface{} {
 	if stack.len == 0 {
 		return nil
 	}
 	p := stack.top
-	stack.top = p.prev
+	stack.top = p.next
 	stack.len--
-	return p
+	return p.Value
 }
 
-func (stack *Stack) TopValue() interface{} {
+func (stack *Stack) Top() interface{} {
 	if stack.len == 0 {
 		return nil
 	}
-	return stack.Top().Value
-}
-
-func (stack *Stack) Top() *Element {
-	return stack.top
+	return stack.top.Value
 }
