@@ -44,6 +44,7 @@ func (stack *Stack) Pop() interface{} {
 	p := stack.top
 	stack.top = p.next
 	stack.len--
+	p.next = nil
 	return p.Value
 }
 
@@ -54,10 +55,10 @@ func (stack *Stack) Top() interface{} {
 	return stack.top.Value
 }
 
-func (stack *Stack) Each(f func(interface{}) bool) {
+func (stack *Stack) Each(visit func(interface{}) bool) {
 	p := stack.top
 	for p != nil {
-		if !f(p.Value) {
+		if !visit(p.Value) {
 			break
 		}
 		p = p.next
