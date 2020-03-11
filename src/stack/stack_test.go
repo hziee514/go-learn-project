@@ -1,6 +1,9 @@
 package stack
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestStack_Push(t *testing.T) {
 	s := New()
@@ -12,6 +15,12 @@ func TestStack_Push(t *testing.T) {
 	t.Logf("IsEmpty[%v], Len[%d], Top[%v]", s.IsEmpty(), s.Len(), s.Top())
 	s.Push(3)
 	t.Logf("IsEmpty[%v], Len[%d], Top[%v]", s.IsEmpty(), s.Len(), s.Top())
+
+	s.Each(func(v interface{}) bool {
+		t.Logf("Visit: Value[%v], Type[%v]", v, reflect.TypeOf(v))
+		return true
+	})
+
 	v = s.Pop()
 	t.Logf("IsEmpty[%v], Len[%d], Top[%v], Pop[%v]", s.IsEmpty(), s.Len(), s.Top(), v)
 	v = s.Pop()

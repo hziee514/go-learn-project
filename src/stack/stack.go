@@ -53,3 +53,13 @@ func (stack *Stack) Top() interface{} {
 	}
 	return stack.top.Value
 }
+
+func (stack *Stack) Each(f func(interface{}) bool) {
+	p := stack.top
+	for p != nil {
+		if !f(p.Value) {
+			break
+		}
+		p = p.next
+	}
+}
